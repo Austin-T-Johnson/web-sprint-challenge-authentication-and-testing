@@ -30,3 +30,14 @@ describe('POST /auth/register', () => {
 
 })
 })
+
+describe('POST /auth/login', () => {
+    test('If missing username, or password', async () => {
+        let res = await request(server).post('/api/auth/login').send({ username: 'Ziggy'});
+        expect(res.body.message).toBe("username and password required");
+    })
+    test('If incorrect username or password is passed in', async () => {
+        let res = await request(server).post('/api/auth/login').send({ username: 'ZiggyMon', password: 'energy'});
+    expect(res.body.message).toBe("invalid credentials");
+    })
+})
