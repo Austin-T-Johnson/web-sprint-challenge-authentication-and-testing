@@ -12,7 +12,7 @@ router.post('/register', async (req, res, next) => {
         let { username, password } = req.body
         let existingUser = await User.findBy({ username }).first()
         if (!username || !password) {
-            res.status(404).json({ message: "username and password required" })
+            res.status(400).json({ message: "username and password required" })
         } else if (existingUser) {
             res.status(400).json({ message: "username taken" })
         } else {
