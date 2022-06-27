@@ -15,6 +15,9 @@ router.post('/register', async (req, res, next) => {
         if (username == '' || password == '') {
             res.status(400).json({ message: "username and password required" })
             return;
+        } else  if (username == '' && password == '') {
+            res.status(400).json({ message: "username and password required" })
+            return;
         } else if (existingUser) {
             res.status(400).json({ message: "username taken" })
         } else {
