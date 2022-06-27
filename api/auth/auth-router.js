@@ -10,7 +10,7 @@ const { BCRYPT_ROUNDS, JWT_SECRET } = require('../../config/index');
 router.post('/register', async (req, res, next) => {
     try {
         let { username, password } = req.body
-        let existingUser = await User.findBy({ username })
+        let existingUser = await User.findBy({ username }).first()
         if (!username || !password) {
             res.status(404).json({ message: "username and password required" })
         } else if (existingUser) {
