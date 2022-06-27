@@ -10,15 +10,15 @@ const { BCRYPT_ROUNDS, JWT_SECRET } = require('../../config/index');
 router.post('/register', async (req, res, next) => {
     try {
         let { username, password } = req.body
-        let existingUser = await User.findBy({ username }).first()
+        console.log(username, password)
+        let existingUser =  username ? await User.findBy({ username }).first() : null
 
-        if (username == '' || password == '') {
+        if (!username|| !password ) {
             res.status(400).json({ message: "username and password required" })
-            return;
-        } else  if (username == '' && password == '') {
-            res.status(400).json({ message: "username and password required" })
-            return;
+           
+        
         } else if (existingUser) {
+            
             res.status(400).json({ message: "username taken" })
         } else {
             const hash = bcrypt.hashSync(password, BCRYPT_ROUNDS)
@@ -65,9 +65,9 @@ router.post('/login', (req, res, next) => {
         if (user && bcrypt.compareSync(password, user.password)) {
             const token = generateToken(user);
             res.status(200).json({ message: `welcome, ${user.username}`, token })
-        } else if(username == '' || password == '') {
+        } else if(!username || !password) {
             res.status(400).json({ message: "username and password required" })
-            return;
+           
         } else {
             next({ status: 401, message: 'invalid credentials' })
         }
@@ -104,7 +104,7 @@ function generateToken(user) {
      
     };
     const options = {
-      expiresIn: '5m',
+      expiresIn: '1d',
     };
     return jwt.sign(payload, JWT_SECRET, options);
   }
