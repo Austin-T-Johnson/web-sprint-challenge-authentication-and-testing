@@ -23,11 +23,16 @@ afterAll(async () => {
 });
 
 describe('POST /auth/register', () => {
-   test('If missing username, or password', async () => {
-    let res = await request(server).post('/api/auth/register').send({ username: 'austintj'});
-    expect(res.body.message).toBe("username and password required");
-    
+   test('If missing password', async () => {
+    let res = await request(server).post('/api/auth/register').send({ username: 'austintj', password: ''});
+   expect(res.body.message).toBe("username and password required");
+   
    })
+   test('If missing username', async () => {
+    let res = await request(server).post('/api/auth/register').send({ username: '', password: '1234'});
+   expect(res.body.message).toBe("username and password required");
+   })
+   
    test('If properly registered', async () => {
     let res = await request(server).post('/api/auth/register').send({ username: 'austinvisuals', password: 'visuals'});
     expect(res.body.username).toBe("austinvisuals");
