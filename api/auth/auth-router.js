@@ -11,8 +11,10 @@ router.post('/register', async (req, res, next) => {
     try {
         let { username, password } = req.body
         let existingUser = await User.findBy({ username }).first()
+
         if (!username || !password) {
             res.status(400).json({ message: "username and password required" })
+            return;
         } else if (existingUser) {
             res.status(400).json({ message: "username taken" })
         } else {
@@ -62,6 +64,7 @@ router.post('/login', (req, res, next) => {
             res.status(200).json({ message: `welcome, ${user.username}`, token })
         } else if(!username || !password) {
             res.status(400).json({ message: "username and password required" })
+            return;
         } else {
             next({ status: 401, message: 'invalid credentials' })
         }
