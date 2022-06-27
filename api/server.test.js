@@ -1,12 +1,9 @@
 const jwt = require('jsonwebtoken');
-jest.mock('jsonwebtoken');
-jwt.verify.mockReturnValue({
-    id: String(),
-    joke: String()
-})
+const router = require('express').Router();
+const { JWT_SECRET } = require('../config/index.js');
 
 const db = require('../data/dbConfig');
-const Users = require('./users/users-model.js');
+const User = require('./users/users-model.js');
 const server = require('./server.js');
 const request = require('supertest');
 
@@ -59,8 +56,28 @@ describe('GET /jokes', () => {
         expect(res.body.message).toBe("token required");
         expect(res.status).toBe(401)
     })
-    // test('if token exists in authorization header', async () => {
-    //     let res = await request(server).get('/api/jokes').set({Authorization:  })
-    //     expect(res).toHaveLength(3)
-    // })
+//     User.findBy({ username })
+//     .then(([user]) => {
+//         if (user && bcrypt.compareSync(password, user.password)) {
+//             const token = generateToken(user);
+//         }
+//         function generateToken(user) {
+//             const payload = {
+//               subject: user.id,
+//               username: user.username,
+             
+//             };
+//             const options = {
+//               expiresIn: '5m',
+//             };
+//             return jwt.sign(payload, JWT_SECRET, options);
+//           }
+//     test('if token exists in authorization header', async () => {
+//         let res = await token
+       
+//         let result = await request(server).get('/api/jokes').set('Authorization', `Bearer ${result.token}` )
+       
+//         expect(result.status).toBe(200)
+//     })
+// })
 })
