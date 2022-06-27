@@ -7,11 +7,11 @@ async function add(user) {
   }
 
   function findBy(filter) {
-    return db('users').select('id', 'username', 'password').where(filter);
+    return db('users').select('id', 'username', 'password').where(filter).first();
   }
 
 function findById(id) {
-    return db('users').select('id', 'username', 'password').where('users.id', id).first()
+    return db('users').select('id', 'username', 'password').where('users.id', id).first();
 }
 
 module.exports = {
